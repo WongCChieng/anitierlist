@@ -1,7 +1,8 @@
 import 'package:anitierlist/models/character/character_model.dart';
 import 'package:anitierlist/models/collection/collection_model.dart';
 import 'package:anitierlist/query/query.dart';
-import 'package:anitierlist/screens/view_save_collection.dart';
+import 'package:anitierlist/screens/preview_edit_collection.dart';
+import 'package:anitierlist/screens/preview_save_collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,28 +10,26 @@ import 'package:provider/provider.dart';
 import '../models/character/character.dart';
 
 
-class AddCollection extends StatefulWidget {
-  final String title;
-  const AddCollection({Key? key, required this.title}) : super(key: key);
+class EditCollection extends StatefulWidget {
+  const EditCollection({Key? key}) : super(key: key);
 
   @override
-  AddCollectionState createState() => AddCollectionState();
+  EditCollectionState createState() => EditCollectionState();
 }
 
-class AddCollectionState extends State<AddCollection>{
-  final TextEditingController _collectionTextEditingController = TextEditingController();
+class EditCollectionState extends State<EditCollection>{
+  TextEditingController _collectionTextEditingController = TextEditingController();
   final TextEditingController _searchNameTextEditingController = TextEditingController();
   final TextEditingController _searchShowTextEditingController = TextEditingController();
   CharacterController characterModel = Get.put(CharacterController());
   CollectionController collectionController = Get.put(CollectionController());
-  
 
   @override
   Widget build(BuildContext context) {
-
+    _collectionTextEditingController.text = collectionController.activeCollection.value.collectionName;
     return Scaffold(
       appBar: AppBar(
-          title: Text(widget.title),
+          title: Text("Edit Collection"),
           elevation: 0,
       ),
       body: Padding(
@@ -119,7 +118,7 @@ class AddCollectionState extends State<AddCollection>{
                                       style:TextButton.styleFrom(primary: Colors.green),
                                       onPressed: (isAdded(characterModel.displayList[index]))?null:
                                           () {
-                                            collectionController.activeCollection.add(characterModel.displayList[index]);
+                                            collectionController.activeCollection.value.characters.add(characterModel.displayList[index]);
                                             setState((){});
                                             },
                                       child: const Icon(Icons.add,size: 30,)),
@@ -127,7 +126,7 @@ class AddCollectionState extends State<AddCollection>{
                                       style:TextButton.styleFrom(primary: Colors.red),
                                       onPressed: (!isAdded(characterModel.displayList[index]))?null:
                                           () {
-                                            collectionController.activeCollection.remove(characterModel.displayList[index]);
+                                            remove(characterModel.displayList[index]);
                                             setState((){});
                                             },
                                       child: const Icon(Icons.remove,size: 30,)),
@@ -154,7 +153,7 @@ class AddCollectionState extends State<AddCollection>{
           TextButton(
               onPressed: (){
                 collectionController.collectionName.value = _collectionTextEditingController.text;
-                Get.to(()=>const PreviewCollection());
+                Get.to(()=>PreviewEditCollection());
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -184,8 +183,18 @@ class AddCollectionState extends State<AddCollection>{
     }
   }
 
+  bool remove(Character character){
+    for (Character c in collectionController.activeCollection.value.characters){
+      if (c.id==character.id){
+        return collectionController.activeCollection.value.characters.remove(c);
+      }
+    }
+    return false;
+  }
+
   bool isAdded(Character character){
-    for (Character c in collectionController.activeCollection){
+
+    for (Character c in collectionController.activeCollection.value.characters){
       if (c.id==character.id){
         return true;
       }

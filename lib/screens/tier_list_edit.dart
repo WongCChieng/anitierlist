@@ -13,15 +13,15 @@ import 'package:flutter_draggable_gridview/flutter_draggable_gridview.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 import 'package:anitierlist/models/character/character.dart';
 
-class TierListScreen extends StatefulWidget{
-  const TierListScreen({Key? key}) : super(key: key);
+class TierListEditScreen extends StatefulWidget{
+  const TierListEditScreen({Key? key}) : super(key: key);
 
   @override
-  TierListScreenState createState() => TierListScreenState();
+  TierListEditScreenState createState() => TierListEditScreenState();
 
 }
 
-class TierListScreenState extends State<TierListScreen>{
+class TierListEditScreenState extends State<TierListEditScreen>{
   CollectionController collectionController = Get.put(CollectionController());
   TierListController tierListController = Get.put(TierListController());
   int selectedItem=0;
@@ -29,14 +29,15 @@ class TierListScreenState extends State<TierListScreen>{
     TLRow("S", []),
     TLRow("A", []),
     TLRow("B", []),
-    TLRow("C", []),]);
+    TLRow("C", []),], unusedCharacters: '', collectionId: null,
+  );
 
   Widget tile(Character character, int rowIndex, int charIndex) {
     return GestureDetector(
       key: ValueKey(character.id),
       onTap: (){
-        collectionController.characterList.add(character);
-        tierListController.activeTierList.value.rows[rowIndex].items.removeAt(charIndex);
+        // collectionController.characterList.add(character);
+        // tierListController.activeTierList.value.rows[rowIndex].items.removeAt(charIndex);
 
       },
       child: Image.network(
@@ -47,19 +48,20 @@ class TierListScreenState extends State<TierListScreen>{
 
   @override
   void dispose() {
-    tierListController.activeTierList.value=emptyTL;
-    collectionController.isEmptied.value = false;
-    collectionController.characterList.value = [];
+    // tierListController.activeTierList.value=emptyTL;
+    // collectionController.isEmptied.value = false;
+    // collectionController.characterList.value = [];
 
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    print(tierListController.activeTierList.value.listName);
     var screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("New Tier List"),
+        title: const Text("Edit Tier List"),
         elevation: 0,
         actions: [
           PopupMenuButton<int>(
@@ -305,16 +307,18 @@ class TierListScreenState extends State<TierListScreen>{
                           if (tierListController.activeTierList.value.tlId==null){
                             TierListDB().insertTL(TierList(
                               listName: value,
-                              detailMap: jsonEncode(tierListController.activeTierList
-                                  .value.listToJson()), rows: []
+                              detailMap: jsonEncode(tierListController.listToJson(tierListController.activeTierList.value.rows)), rows: [],
+                              unusedCharacters: tierListController.toListofStringID(collectionController.characterList),
+                              collectionId: collectionController.activeCollection.value.collectionId
                             ));
                           }
                           else{
                             TierListDB().updateTL(TierList(
                                 tlId: tierListController.activeTierList.value.tlId,
                                 listName: value,
-                                detailMap: jsonEncode(tierListController.activeTierList
-                                    .value.listToJson()), rows: []
+                                detailMap: jsonEncode(tierListController.listToJson(tierListController.activeTierList.value.rows)), rows: [],
+                                unusedCharacters: tierListController.toListofStringID(collectionController.characterList),
+                                collectionId: collectionController.activeCollection.value.collectionId
                             ));
                           }
                           Get.offAll(HomePage());
