@@ -32,7 +32,7 @@ class ViewCollectionState extends State<ViewCollection>{
   @override
   Widget build(BuildContext context) {
     CollectionController collectionController = Get.put(CollectionController());
-    CollectionDB collectionDB = CollectionDB();
+    AniTierList collectionDB = AniTierList();
 
     return WillPopScope(
       onWillPop: () async {

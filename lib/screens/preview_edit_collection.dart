@@ -99,7 +99,7 @@ class PreviewEditCollectionState extends State<PreviewEditCollection>{
                             collectionController.collectionName.value,
                         characters: collectionController.activeCollection.value.characters,
                         charactersListString: toListString(collectionController.activeCollection.value.characters));
-                    CollectionDB db = CollectionDB();
+                    AniTierList db = AniTierList();
                     await db.updateCollection(collection);
                     Get.offAll(() => const HomePage());
                   }

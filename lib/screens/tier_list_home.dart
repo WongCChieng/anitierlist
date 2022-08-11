@@ -1,4 +1,3 @@
-import 'package:anitierlist/db/tierlist_db.dart';
 import 'package:anitierlist/models/tierlist/tierlist_model.dart';
 import 'package:anitierlist/screens/select_collection.dart';
 import 'package:anitierlist/screens/tier_list.dart';
@@ -6,6 +5,8 @@ import 'package:anitierlist/screens/tier_list_edit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../db/collection_db.dart';
 
 class TierListHome extends StatefulWidget {
   @override
@@ -37,7 +38,8 @@ class TierListHomeState extends State<TierListHome>{
                               return GestureDetector(
                                 onTap: (){
                                   tierListController.activeTierList.value = tierListController.tlList[index];
-                                  Get.off(TierListEditScreen());
+                                  print(tierListController.activeTierList.value.listName);
+                                  Get.to(()=>TierListEditScreen());
                                 },
                                 child: Card(
                                   child: Padding(
@@ -47,7 +49,7 @@ class TierListHomeState extends State<TierListHome>{
                                       children: [
                                         Text(tierListController.tlList[index].listName,style: TextStyle(fontSize: 16),),
                                         TextButton(onPressed: (){
-                                          TierListDB().deleteTL(tierListController.tlList[index].tlId!);
+                                          AniTierList().deleteTL(tierListController.tlList[index].tlId!);
                                           tierListController.getTLs();
                                         }, child: Icon(Icons.delete,color: Colors.red,))                                          ],
                                     ),

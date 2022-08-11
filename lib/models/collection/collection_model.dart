@@ -9,7 +9,7 @@ import '../../query/query.dart';
 
 
 class CollectionController extends GetxController{
-  CollectionDB collectionDB = CollectionDB();
+  AniTierList collectionDB = AniTierList();
   var activeCollection = Collection(collectionName: "", characters: [], charactersListString: "").obs;
   var collectionName = ''.obs;
   var collections = <Collection>[].obs;

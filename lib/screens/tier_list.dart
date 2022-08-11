@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:anitierlist/db/tierlist_db.dart';
+import 'package:anitierlist/db/collection_db.dart';
 import 'package:anitierlist/models/collection/collection_model.dart';
 import 'package:anitierlist/models/tierlist/tierlist_model.dart';
 import 'package:anitierlist/models/tierlist/tierlist.dart';
@@ -26,10 +26,10 @@ class TierListScreenState extends State<TierListScreen>{
   TierListController tierListController = Get.put(TierListController());
   int selectedItem=0;
   TierList emptyTL = TierList(listName: "", detailMap: "", rows: [
-    TLRow("S", []),
-    TLRow("A", []),
-    TLRow("B", []),
-    TLRow("C", []),], unusedCharacters: '', collectionId: null,
+    TLRow(0,"S", []),
+    TLRow(1,"A", []),
+    TLRow(2,"B", []),
+    TLRow(3,"C", []),], unusedCharacters: '', collectionId: null, unused: []
   );
 
   Widget tile(Character character, int rowIndex, int charIndex) {
@@ -85,10 +85,7 @@ class TierListScreenState extends State<TierListScreen>{
         child: Obx(()=>Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Text(tierListController.activeTierList.value.listName,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),)),
-                  ListView.separated(
+              ListView.separated(
                     itemCount: tierListController.activeTierList.value.rows.length,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
@@ -299,29 +296,28 @@ class TierListScreenState extends State<TierListScreen>{
                       decoration: InputDecoration(
                         hintText: "Tier List Name"
                       ),
-                      initialValue: tierListController.activeTierList.value.listName,
                       onFieldSubmitted: (value){
                         if (value!="" && tierListController.activeTierList
                             .value.rows.isNotEmpty){
                           if (tierListController.activeTierList.value.tlId==null){
-                            TierListDB().insertTL(TierList(
+                            AniTierList().insertTL(TierList(
                               listName: value,
                               detailMap: jsonEncode(tierListController.listToJson(tierListController.activeTierList.value.rows)),
                                 rows: [],
                                 unusedCharacters: tierListController.toListofStringID(collectionController.characterList),
-                                collectionId: collectionController.activeCollection.value.collectionId
+                                collectionId: collectionController.activeCollection.value.collectionId,unused: []
                             ));
                           }
                           else{
-                            TierListDB().updateTL(TierList(
+                            AniTierList().updateTL(TierList(
                                 tlId: tierListController.activeTierList.value.tlId,
                                 listName: value,
                                 detailMap: jsonEncode(tierListController.listToJson(tierListController.activeTierList.value.rows)), rows: [],
                                 unusedCharacters: tierListController.toListofStringID(collectionController.characterList),
-                                collectionId: collectionController.activeCollection.value.collectionId
+                                collectionId: collectionController.activeCollection.value.collectionId,unused: []
                             ));
                           }
-                          Get.offAll(HomePage());
+                          Get.offAll(()=>HomePage());
 
                         }
                       },
@@ -334,7 +330,7 @@ class TierListScreenState extends State<TierListScreen>{
         });
   }
 
-  void addNewRow(){
+  void addNewRow(int index){
     showDialog(context: context,
       builder: (context){
         return AlertDialog(
@@ -344,7 +340,7 @@ class TierListScreenState extends State<TierListScreen>{
               TextFormField(
                 onFieldSubmitted: (newValue){
                   if (newValue!=""){
-                    tierListController.activeTierList.value.rows.add(TLRow(newValue, []));
+                    tierListController.activeTierList.value.rows.add(TLRow(index, newValue, []));
                     setState((){});
                     Get.back();
                   }
@@ -369,7 +365,7 @@ class TierListScreenState extends State<TierListScreen>{
         tierListController.activeTierList.value = emptyTL;
         break;
       case 1:
-        addNewRow();
+        addNewRow(tierListController.activeTierList.value.rows.length);
     }
   }
 

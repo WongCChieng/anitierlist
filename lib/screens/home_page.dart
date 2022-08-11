@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:anitierlist/query/query.dart';
+import 'package:anitierlist/screens/select_collection.dart';
 import 'package:anitierlist/screens/tier_list_home.dart';
 import 'package:anitierlist/widgets/drawer.dart';
 import 'package:flutter/cupertino.dart';
@@ -53,7 +54,8 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             GestureDetector(
               onTap: (){
-                Get.to(()=>TierListHome());
+                // Get.to(()=>TierListHome());
+                Get.to(()=>const SelectCollection());
               },
               child: Container(
                 padding: const EdgeInsets.all(8),
@@ -66,16 +68,16 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.all(8),
-              color: Colors.black12,
-              child:  Column(
-                children: const [
-                  Expanded(child: Icon(Icons.format_list_numbered_outlined)),
-                  Text("Ranking",style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
-                ],
-              ),
-            ),
+            // Container(
+            //   padding: const EdgeInsets.all(8),
+            //   color: Colors.black12,
+            //   child:  Column(
+            //     children: const [
+            //       Expanded(child: Icon(Icons.format_list_numbered_outlined)),
+            //       Text("Ranking",style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+            //     ],
+            //   ),
+            // ),
           ],
         )
       ),

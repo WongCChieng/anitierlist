@@ -96,7 +96,7 @@ class PreviewCollectionState extends State<PreviewCollection>{
                             collectionController.collectionName.value,
                         characters: characterController.previewList,
                         charactersListString: '');
-                    CollectionDB db = CollectionDB();
+                    AniTierList db = AniTierList();
                     await db.insertCollection(collection);
                     Get.offAll(() => const HomePage());
                   }
