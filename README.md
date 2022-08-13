@@ -2,7 +2,7 @@
 
 A simple app to make anime character tier list and rankings, built with Flutter and powered with AniList API v2.
 
-![image](https://user-images.githubusercontent.com/82138428/184467139-41e7dcbb-7632-4205-bdfa-c4aca537dc84.png)
+![image](https://user-images.githubusercontent.com/82138428/184467139-41e7dcbb-7632-4205-bdfa-c4aca537dc84.png | width=100)
 
 ## Features
 - Save character collections 
