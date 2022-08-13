@@ -1,16 +1,10 @@
-# anitierlist
+# AniTierList
 
-A new Flutter project.
+A simple app to make anime character tier list and rankings, built with Flutter and powered with AniList API v2.
 
-## Getting Started
+## Features
+- Save character collections 
+- Use a collection to make tier list
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## To do
+- View saved tier list and rankings
