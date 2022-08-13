@@ -1,4 +1,4 @@
-# AniTierList
+# AniTierListCancel changes
 
 A simple app to make anime character tier list and rankings, built with Flutter and powered with AniList API v2.
 
@@ -8,3 +8,4 @@ A simple app to make anime character tier list and rankings, built with Flutter 
 
 ## To do
 - View saved tier list and rankings
+- Many bug fixes
